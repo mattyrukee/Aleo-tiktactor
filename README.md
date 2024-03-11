@@ -1,4 +1,8 @@
 # Aleo-tiktactor
 My aleo tictactoe App
 
-Mattyrukeee#8393
+## Socials
+### Discord
+``Mattyrukee#8393``
+#### Twitter
+``Mattyrukee``
