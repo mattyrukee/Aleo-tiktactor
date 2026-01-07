@@ -32,17 +32,16 @@ jobs:
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
           echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
+          sudo apt-get install trivy -y
 
-
-        # Output for logs
-      - name: Trivy scan (table output)
+      # Step 8: Run Trivy scan on Docker image
+      - name: Run Trivy vulnerability scan on Docker image
+        run: trivy image --exit-code 1 --severity HIGH,CRITICAL ${{ secrets.DOCKERHUB_USERNAME }}/my-fastapi-app:latest
+      - name: Run Trivy scan on Docker image (using .trivyignore)
         run: |
-          trivy fs . \
-            --scanners vuln,secret,config \
-            --severity HIGH,CRITICAL \
-            --ignore-unfixed \
+          trivy image \
             --exit-code 1 \
-            --format table
-            
-
+            --severity HIGH,CRITICAL \
+            --ignorefile .trivyignore \
+            ${{ secrets.DOCKERHUB_USERNAME }}/my-fastapi-app:latest
           
